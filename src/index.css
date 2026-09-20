@@ -1,0 +1,525 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* ---------- Legacy aliases (kept for backwards compatibility) ------ */
+    --bg-primary: #080A12;
+    --bg-secondary: #0B1220;
+    --glass-card: rgba(255, 255, 255, 0.06);
+    --glass-border: rgba(255, 255, 255, 0.14);
+    --accent-purple: #7C3AED;
+    --accent-cyan: #38BDF8;
+    --blur-val: 24px;
+
+    /* ---------- Canvas + surfaces (feed Tailwind, see tailwind.config.js) */
+    --c-app-bg: 8 10 18;         /* #080A12 deep space canvas   */
+    --c-surface: 11 18 32;       /* #0B1220 raised surface      */
+    --c-panel: 11 15 29;         /* #0B0F1D modal / panel body  */
+    --c-panel-alt: 15 20 36;     /* #0F1424 nested card body    */
+    --c-popover: 14 18 34;       /* #0E1222 dropdowns/tooltips  */
+
+    /* ---------- Text primitives, contrast tuned for legibility --------
+       The stock dark-mode greys (slate-400 #94A3B8, slate-600 #475569)
+       were too dim to read comfortably, so each step is lifted while
+       keeping the original light-to-dark ordering.                    */
+    --c-white: 255 255 255;
+    --c-slate-100: 233 239 247;
+    --c-slate-200: 232 238 246;
+    --c-slate-300: 216 225 236;
+    --c-slate-400: 166 180 200;
+    --c-slate-500: 138 153 174;
+    --c-slate-600: 107 122 145;
+    --c-slate-700: 71 85 105;
+    --c-slate-800: 30 41 59;
+    --c-slate-900: 15 23 42;
+
+    /* ---------- Accent tints (300/400 steps, see tailwind.config.js) ---
+       Stock Tailwind pastels -- correct on a dark canvas.               */
+    --c-sky-300: 125 211 252;
+    --c-sky-400: 56 189 248;
+    --c-purple-300: 216 180 254;
+    --c-purple-400: 192 132 252;
+    --c-indigo-300: 165 180 252;
+    --c-indigo-400: 129 140 248;
+    --c-emerald-300: 110 231 183;
+    --c-emerald-400: 52 211 153;
+    --c-amber-300: 252 211 77;
+    --c-amber-400: 251 191 36;
+    --c-rose-300: 253 164 175;
+    --c-rose-400: 251 113 133;
+    --c-violet-300: 196 181 253;
+    --c-violet-400: 167 139 250;
+    --c-blue-400: 96 165 250;
+    --c-orange-400: 251 146 60;
+    --c-teal-300: 94 234 212;
+    --c-violet-300: 196 181 253;
+    --c-violet-400: 167 139 250;
+    --c-blue-400: 96 165 250;
+    --c-orange-400: 251 146 60;
+    --c-teal-300: 94 234 212;
+
+    /* ---------- Glassmorphism (more opaque + stronger edge = clearer) -- */
+    --glass-panel-bg: rgba(17, 20, 34, 0.84);
+    --glass-panel-border: rgba(255, 255, 255, 0.16);
+    --glass-panel-shadow: 0 20px 50px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    --glass-card-bg: rgba(255, 255, 255, 0.06);
+    --glass-card-border: rgba(255, 255, 255, 0.15);
+    --glass-card-shadow: 0 12px 32px rgba(0, 0, 0, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.09);
+    --glass-card-hover-border: rgba(124, 58, 237, 0.55);
+    --glass-card-hover-shadow: 0 18px 44px rgba(0, 0, 0, 0.5), 0 0 28px -4px rgba(124, 58, 237, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.14);
+    --glass-button-bg: rgba(255, 255, 255, 0.09);
+    --glass-button-bg-hover: rgba(255, 255, 255, 0.16);
+    --glass-button-border: rgba(255, 255, 255, 0.2);
+
+    /* ---------- Decoration -------------------------------------------- */
+    --grid-line: rgba(255, 255, 255, 0.035);
+    --scroll-track: #080A12;
+    --scroll-thumb: rgba(255, 255, 255, 0.24);
+    --orb-opacity: 0.38;
+    --orb-blend: screen;
+    --selection-bg: #7C3AED;
+    --selection-fg: #FFFFFF;
+
+    /* ---------- Charts (see the Recharts block in this file) ----------- */
+    --chart-grid: rgba(255, 255, 255, 0.07);
+    --chart-axis-line: rgba(255, 255, 255, 0.14);
+    --chart-tick: #9AA8BE;
+    --chart-slice-stroke: rgba(15, 17, 30, 0.8);
+
+    /* ---------- Sidebar rail: floating deep-purple curved rail (matches reference) ---------- */
+    /* Core purple gradient for the sidebar body */
+    --rail-bg: linear-gradient(180deg, #4C2CDB 0%, #5B35F5 35%, #4B2FD8 65%, #3021B7 100%);
+    
+    /* Glass/transparency layer */
+    --rail-glass: rgba(62, 39, 190, 0.78);
+    --rail-backdrop: blur(16px);
+    
+    /* Border and glow */
+    --rail-border: rgba(255, 255, 255, 0.18);
+    --rail-glow: 0 0 18px rgba(83, 61, 255, 0.20);
+    --rail-inset-highlight: inset 1px 0 8px rgba(255, 255, 255, 0.08);
+    
+    /* Overall shadow for depth */
+    --rail-shadow: 0 15px 40px rgba(0, 0, 0, 0.40), 0 0 25px rgba(65, 45, 220, 0.12);
+    
+    /* Radial highlight for illuminated appearance */
+    --rail-radial: radial-gradient(circle at 40% 30%, rgba(120, 100, 255, 0.25), transparent 45%);
+  }
+
+  body {
+    background-color: rgb(var(--c-app-bg));
+    color: rgb(var(--c-white));
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    overflow-x: hidden;
+    transition: background-color 0.35s ease, color 0.35s ease;
+  }
+
+  ::selection {
+    background-color: var(--selection-bg);
+    color: var(--selection-fg);
+  }
+
+  /* ======================================================================
+     LIGHT THEME  --  active whenever <html> has no .dark class
+     ----------------------------------------------------------------------
+     Flipping these variables re-themes the entire application, because all
+     of the `text-white` / `bg-white/10` / `border-white/[0.08]` /
+     `text-slate-400` utilities in the components resolve through them.
+     `--c-white` becomes a deep navy so "white" text/glass automatically
+     turns into dark ink and tinted glass on a bright canvas.
+     ====================================================================== */
+  html:not(.dark) {
+    /* --- Legacy aliases ------------------------------------------------ */
+    --bg-primary: #F0F4FA;
+    --bg-secondary: #FFFFFF;
+    --glass-card: rgba(255, 255, 255, 0.84);
+    --glass-border: rgba(15, 23, 42, 0.14);
+
+    /* --- Canvas + surfaces -------------------------------------------- */
+    --c-app-bg: 240 244 250;      /* #F0F4FA soft daylight canvas */
+    --c-surface: 255 255 255;
+    --c-panel: 255 255 255;
+    --c-panel-alt: 248 250 252;
+    --c-popover: 255 255 255;
+
+    /* --- Text: inverted ramp keeps the same visual hierarchy ---------- */
+    --c-white: 15 23 42;
+    --c-slate-100: 15 23 42;
+    --c-slate-200: 30 41 59;
+    --c-slate-300: 51 65 85;
+    --c-slate-400: 71 85 105;
+    --c-slate-500: 100 116 139;
+    --c-slate-600: 127 146 168;
+    --c-slate-700: 226 232 240;
+    --c-slate-800: 241 245 249;
+    --c-slate-900: 248 250 252;
+
+    /* --- Accents: one step deeper so they stay legible on white -------
+       Each value is the 600 (for 300-tints) / 700 (for 400-tints) shade of
+       the same hue, landing at roughly 4.5:1 - 7:1 on the light canvas
+       while keeping the brand hue recognisable.                        */
+    --c-sky-300: 2 132 199;      /* sky-600 */
+    --c-sky-400: 3 105 161;      /* sky-700 */
+    --c-purple-300: 147 51 234;  /* purple-600 */
+    --c-purple-400: 126 34 206;  /* purple-700 */
+    --c-indigo-300: 79 70 229;   /* indigo-600 */
+    --c-indigo-400: 67 56 202;   /* indigo-700 */
+    --c-emerald-300: 5 150 105;  /* emerald-600 */
+    --c-emerald-400: 4 120 87;   /* emerald-700 */
+    --c-amber-300: 217 119 6;    /* amber-600 */
+    --c-amber-400: 180 83 9;     /* amber-700 */
+    --c-rose-300: 225 29 72;     /* rose-600 */
+    --c-rose-400: 190 18 60;     /* rose-700 */
+    --c-violet-300: 124 58 237;  /* violet-600 */
+    --c-violet-400: 109 40 217;  /* violet-700 */
+    --c-blue-400: 29 78 216;     /* blue-700 */
+    --c-orange-400: 194 65 12;   /* orange-700 */
+    --c-teal-300: 13 148 136;    /* teal-600 */
+
+    /* --- Glass: frosted white panels instead of frosted dark ---------- */
+    --glass-panel-bg: rgba(255, 255, 255, 0.88);
+    --glass-panel-border: rgba(15, 23, 42, 0.14);
+    --glass-panel-shadow: 0 18px 42px rgba(15, 23, 42, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+    --glass-card-bg: rgba(255, 255, 255, 0.84);
+    --glass-card-border: rgba(15, 23, 42, 0.14);
+    --glass-card-shadow: 0 12px 28px rgba(15, 23, 42, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+    --glass-card-hover-border: rgba(124, 58, 237, 0.45);
+    --glass-card-hover-shadow: 0 18px 40px rgba(15, 23, 42, 0.16), 0 0 26px -4px rgba(124, 58, 237, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+    --glass-button-bg: rgba(255, 255, 255, 0.92);
+    --glass-button-bg-hover: #FFFFFF;
+    --glass-button-border: rgba(15, 23, 42, 0.16);
+
+    /* --- Decoration --------------------------------------------------- */
+    --grid-line: rgba(15, 23, 42, 0.055);
+    --scroll-track: #EDF1F8;
+    --scroll-thumb: rgba(15, 23, 42, 0.3);
+    --orb-opacity: 0.2;
+    --orb-blend: normal;   /* `screen` would be invisible on a white canvas */
+
+    /* --- Charts: visible grid + legible ticks on a bright panel ------- */
+    --chart-grid: rgba(15, 23, 42, 0.1);
+    --chart-axis-line: rgba(15, 23, 42, 0.2);
+    --chart-tick: #475569;
+    --chart-slice-stroke: rgba(255, 255, 255, 0.92);
+
+    /* --- Sidebar rail: same deep-purple curved rail as dark mode -------------- */
+    --rail-bg: linear-gradient(180deg, #4C2CDB 0%, #5B35F5 35%, #4B2FD8 65%, #3021B7 100%);
+    --rail-glass: rgba(62, 39, 190, 0.78);
+    --rail-backdrop: blur(16px);
+    --rail-border: rgba(255, 255, 255, 0.18);
+    --rail-glow: 0 0 18px rgba(83, 61, 255, 0.20);
+    --rail-inset-highlight: inset 1px 0 8px rgba(255, 255, 255, 0.08);
+    --rail-shadow: 0 15px 40px rgba(0, 0, 0, 0.40), 0 0 25px rgba(65, 45, 220, 0.12);
+    --rail-radial: radial-gradient(circle at 40% 30%, rgba(120, 100, 255, 0.25), transparent 45%);
+  }
+
+  /* Animate the swap so switching themes feels deliberate, not jarring */
+  .glass-panel,
+  .glass-card,
+  .glass-card-hover,
+  .glass-button,
+  .cyber-grid,
+  .orb {
+    transition: background-color 0.35s ease, border-color 0.35s ease,
+      color 0.35s ease, box-shadow 0.35s ease;
+  }
+
+  /* Reduced motion -- driven by the Settings drawer (html.reduce-motion) */
+  html.reduce-motion *,
+  html.reduce-motion *::before,
+  html.reduce-motion *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Glassmorphism Design System -- every value is theme aware and the blur
+   radius honours the "Glass Blur" control in the Settings drawer. */
+.glass-panel {
+  background: var(--glass-panel-bg);
+  backdrop-filter: blur(var(--blur-val));
+  -webkit-backdrop-filter: blur(var(--blur-val));
+  border: 1px solid var(--glass-panel-border);
+  box-shadow: var(--glass-panel-shadow);
+}
+
+.glass-card {
+  background: var(--glass-card-bg);
+  backdrop-filter: blur(var(--blur-val));
+  -webkit-backdrop-filter: blur(var(--blur-val));
+  border: 1px solid var(--glass-card-border);
+  border-radius: 20px;
+  box-shadow: var(--glass-card-shadow);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-card-hover:hover {
+  transform: translateY(-4px);
+  border-color: var(--glass-card-hover-border);
+  box-shadow: var(--glass-card-hover-shadow);
+}
+
+.glass-button {
+  background: var(--glass-button-bg);
+  backdrop-filter: blur(calc(var(--blur-val) * 0.5));
+  -webkit-backdrop-filter: blur(calc(var(--blur-val) * 0.5));
+  border: 1px solid var(--glass-button-border);
+  transition: all 0.2s ease;
+}
+
+.glass-button:hover {
+  background: var(--glass-button-bg-hover);
+  border-color: rgba(56, 189, 248, 0.4);
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.2);
+}
+
+/* Gradient Texts & Accents */
+.text-gradient-purple-cyan {
+  background: linear-gradient(135deg, #A855F7 0%, #38BDF8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-brand {
+  background: linear-gradient(135deg, rgb(var(--c-white)) 20%, rgb(var(--c-slate-400)) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Cyber Grid Background */
+.cyber-grid {
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--scroll-track);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--scroll-thumb);
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(124, 58, 237, 0.5);
+}
+
+/* Glowing orbs */
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+  opacity: var(--orb-opacity);
+  mix-blend-mode: var(--orb-blend);
+}
+
+/* Custom Cursor element */
+.cursor-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  background-color: #38BDF8;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  box-shadow: 0 0 12px #38BDF8, 0 0 20px #7C3AED;
+  transition: transform 0.08s ease, width 0.2s ease, height 0.2s ease, background-color 0.2s ease;
+  transform: translate(-50%, -50%);
+}
+
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 32px;
+  height: 32px;
+  border: 1.5px solid rgba(56, 189, 248, 0.45);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transition: transform 0.18s ease-out, width 0.2s ease, height 0.2s ease, border-color 0.2s ease;
+  transform: translate(-50%, -50%);
+}
+
+/* On a bright canvas the cyan glow reads far weaker, so deepen the cursor
+   ring and deepen the halo so it stays clearly trackable. */
+html:not(.dark) .cursor-ring {
+  border-color: rgba(3, 105, 161, 0.55);
+}
+
+html:not(.dark) .cursor-dot {
+  background-color: #0284C7;
+  box-shadow: 0 0 12px rgba(2, 132, 199, 0.75), 0 0 20px rgba(124, 58, 237, 0.5);
+}
+
+/* Accessible animations */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+
+/* ==========================================================================
+   CHART THEMING (Recharts)
+   --------------------------------------------------------------------------
+   The chart primitives receive their colours as SVG *presentation attributes*
+   (`stroke="rgba(255,255,255,0.05)"`, `axisLine={{stroke: ...}}`). Those were
+   hard-coded for a dark canvas and disappear on a bright one. Presentation
+   attributes sit at the start of the author stylesheet, so any real CSS rule
+   overrides them -- which lets the charts be re-themed from here, once,
+   without touching a single component.
+   ========================================================================== */
+.recharts-cartesian-grid line {
+  stroke: var(--chart-grid);
+}
+
+.recharts-cartesian-axis-line,
+.recharts-cartesian-axis-tick-line {
+  stroke: var(--chart-axis-line);
+}
+
+.recharts-cartesian-axis-tick-value,
+.recharts-text.recharts-cartesian-axis-tick-value {
+  fill: var(--chart-tick);
+}
+
+/* Donut: the slice outline doubles as the gap between segments, so it has to
+   match the panel it sits on rather than stay a fixed dark colour. */
+.recharts-pie .recharts-sector {
+  stroke: var(--chart-slice-stroke);
+}
+
+/* ==========================================================================
+   LIGHT-MODE CLARITY LAYER
+   --------------------------------------------------------------------------
+   Dark-mode glass works by *lightening* the near-black canvas, so a 2-4%
+   white tint already reads as a distinct surface. On a bright canvas the
+   equivalent navy tint is far too weak, which made every panel look washed
+   out. These unlayered rules sit after `@tailwind utilities`, so they win the
+   cascade, and they lift the low-opacity glass utilities to values that
+   carry the same visual weight in light mode.
+
+   Class names are escaped exactly as Tailwind emits them
+   (e.g. .bg-white\/\[0\.02\] for `bg-white/[0.02]`).
+   ========================================================================== */
+
+/* --- Surfaces: subtle raised / inset panels ----------------------------- */
+html:not(.dark) .bg-white\/\[0\.02\],
+html:not(.dark) .bg-white\/\[0\.03\] {
+  background-color: rgba(15, 23, 42, 0.05);
+}
+
+html:not(.dark) .bg-white\/\[0\.04\],
+html:not(.dark) .bg-white\/5 {
+  background-color: rgba(15, 23, 42, 0.07);
+}
+
+html:not(.dark) .bg-white\/\[0\.05\],
+html:not(.dark) .bg-white\/\[0\.06\] {
+  background-color: rgba(15, 23, 42, 0.085);
+}
+
+html:not(.dark) .bg-white\/\[0\.07\],
+html:not(.dark) .bg-white\/\[0\.08\] {
+  background-color: rgba(15, 23, 42, 0.105);
+}
+
+/* --- Surfaces: interactive / selected states ---------------------------- */
+html:not(.dark) .bg-white\/\[0\.1\],
+html:not(.dark) .bg-white\/\[0\.10\],
+html:not(.dark) .bg-white\/10 {
+  background-color: rgba(15, 23, 42, 0.13);
+}
+
+html:not(.dark) .bg-white\/\[0\.12\],
+html:not(.dark) .bg-white\/15 {
+  background-color: rgba(15, 23, 42, 0.18);
+}
+
+/* --- Borders: hairlines and card outlines ------------------------------- */
+html:not(.dark) .border-white\/\[0\.04\],
+html:not(.dark) .border-white\/\[0\.06\] {
+  border-color: rgba(15, 23, 42, 0.14);
+}
+
+html:not(.dark) .border-white\/\[0\.08\],
+html:not(.dark) .border-white\/\[0\.1\],
+html:not(.dark) .border-white\/10 {
+  border-color: rgba(15, 23, 42, 0.17);
+}
+
+html:not(.dark) .border-white\/15,
+html:not(.dark) .border-white\/20 {
+  border-color: rgba(15, 23, 42, 0.24);
+}
+
+/* --- Shadows: near-black scrims are correct on a dark canvas but read as
+       grime on a bright one, so the heavy black shadow colours are eased. --- */
+html:not(.dark) .shadow-black\/40 {
+  --tw-shadow-color: rgb(15 23 42 / 0.1);
+}
+
+html:not(.dark) .shadow-black\/60 {
+  --tw-shadow-color: rgb(15 23 42 / 0.14);
+}
+
+html:not(.dark) .shadow-black\/70 {
+  --tw-shadow-color: rgb(15 23 42 / 0.18);
+}
+
+html:not(.dark) .shadow-black\/80 {
+  --tw-shadow-color: rgb(15 23 42 / 0.22);
+}
+
+/* --- Modal / drawer backdrops: an 80-85% black scrim is right behind a dark
+       glass modal, but it reads as a blackout behind a white one. Eased so the
+       light theme still feels light while keeping the modal clearly lifted.
+       The small `bg-black/70` badges that sit on top of photos are deliberately
+       NOT included -- those stay dark in both themes. ---------------------- */
+html:not(.dark) .bg-black\/40 {
+  background-color: rgba(15, 23, 42, 0.22);
+}
+
+html:not(.dark) .bg-black\/60 {
+  background-color: rgba(15, 23, 42, 0.3);
+}
+
+html:not(.dark) .bg-black\/75 {
+  background-color: rgba(15, 23, 42, 0.38);
+}
+
+html:not(.dark) .bg-black\/80 {
+  background-color: rgba(15, 23, 42, 0.42);
+}
+
+html:not(.dark) .bg-black\/85 {
+  background-color: rgba(15, 23, 42, 0.45);
+}
+
+/* --- Selection: `selection:text-white` also flows through --c-white, so it
+       would render dark navy on the purple highlight. Force printable white. */
+html:not(.dark) ::selection {
+  color: #FFFFFF;
+  background-color: var(--selection-bg);
+}

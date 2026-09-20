@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en" class="dark scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mohsin Ahmad | Frontend Developer & BI Dashboard Specialist</title>
+    <meta name="description" content="Official portfolio and executive SaaS dashboard of Mohsin Ahmad - Frontend Developer, MS Excel & Microsoft Power BI Specialist. Software Engineering Student at Islamia College Peshawar." />
+    <meta name="keywords" content="Mohsin Ahmad, Frontend Developer, Power BI, Microsoft Excel, Islamia College Peshawar, Web Development, Portfolio Dashboard" />
+    <meta name="author" content="Mohsin Ahmad" />
+    <meta name="theme-color" content="#080A12" />
+    
+    <!-- Open Graph / Social Meta -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Mohsin Ahmad | Futuristic Portfolio & SaaS Dashboard" />
+    <meta property="og:description" content="Building modern digital experiences and turning data into clear, useful insights." />
+    <meta property="og:image" content="/mohsin-ahmad.jpg" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Theme bootstrap: applies the saved theme before first paint so there is
+         never a flash of the wrong theme while React hydrates. -->
+    <script>
+      (function () {
+        try {
+          var root = document.documentElement;
+          var saved = localStorage.getItem('portfolio_theme');
+          var isLight = saved === 'light' || saved === 'midnight';
+          root.classList.toggle('dark', !isLight);
+          root.style.colorScheme = isLight ? 'light' : 'dark';
+
+          var blur = localStorage.getItem('glass_blur');
+          if (blur) root.style.setProperty('--blur-val', blur);
+
+          if (localStorage.getItem('reduced_motion') === 'true') {
+            root.classList.add('reduce-motion');
+          }
+
+          var meta = document.querySelector('meta[name="theme-color"]');
+          if (meta) meta.setAttribute('content', isLight ? '#F0F4FA' : '#080A12');
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body class="bg-appBg text-white antialiased overflow-x-hidden min-h-screen">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
