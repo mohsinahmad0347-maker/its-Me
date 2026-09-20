@@ -54,6 +54,9 @@ const NAV_ITEMS: NavItem[] = [
   { id: 'resume', label: 'Resume', icon: FileText, path: '/resume' },
   { id: 'download-cv', label: 'Download CV', icon: Download, path: '/cv', isAction: true },
   { id: 'social-links', label: 'Social Links', icon: Share2, path: '/social' },
+  { id: 'contact', label: 'Contact', icon: Mail, path: '/contact' },
+];
+
 export const Sidebar: React.FC<SidebarProps> = ({
   isCollapsed,
   setIsCollapsed,
@@ -78,8 +81,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
   const ICON_SIZE = 18;
   const SIDEBAR_WIDTH = 63;
-  const topPadding = 55;
-  const bottomPadding = 40;
 
   const getActivePath = () => {
     const pathMap: Record<string, string> = {
@@ -87,6 +88,20 @@ export const Sidebar: React.FC<SidebarProps> = ({
       '/about': 'about',
       '/technology': 'skills',
       '/projects': 'projects',
+      '/analytics': 'analytics',
+      '/services': 'services',
+      '/education': 'education',
+      '/timeline': 'timeline',
+      '/strengths': 'strengths',
+      '/resume': 'resume',
+      '/cv': 'download-cv',
+      '/social': 'social-links',
+      '/contact': 'contact',
+    };
+    return pathMap[location.pathname] || 'dashboard';
+  };
+
+  const activeId = getActivePath();
 
   const renderSidebarContent = (isMobile: boolean) => (
     <>
@@ -103,18 +118,25 @@ export const Sidebar: React.FC<SidebarProps> = ({
             <stop offset="65%" stopColor="#4B2FD8" />
             <stop offset="100%" stopColor="#3021B7" />
           </linearGradient>
-          <radialGradient id="sr" cx="40%" cy="30%" r="45%">
-            <stop offset="0%" stopColor="rgba(120, 100, 255, 0.25)" />
-            <stop offset="100%" stopColor="transparent" />
+          <radialGradient id="sr" cx="50%" cy="20%" r="60%">
+            <stop offset="0%" stopColor="#5B35F5" stopOpacity="0.40" />
+            <stop offset="100%" stopColor="#5B35F5" stopOpacity="0" />
           </radialGradient>
           <clipPath id="sc">
-
-      <nav className="relative z-10 flex flex-col justify-between w-full h-full px-0 py-0 select-none" style={{ paddingTop: topPadding, paddingBottom: bottomPadding }}>
-        <div className="flex flex-col space-y-[9px] w-full">
-          {NAV_ITEMS.slice(0, -2).map((item) => {
-            const isActive = item.id === activeId;
+            <path d="M 31.5 0 C 15 0, 5 15, 5 35 C 5 55, 8 65, 8 80 L 8 920 C 8 935, 5 945, 5 965 C 5 985, 15 1000, 31.5 1000 L 31.5 1000 C 48 1000, 58 985, 58 965 C 58 945, 55 935, 55 920 L 55 80 C 55 65, 58 55, 58 35 C 58 15, 48 0, 31.5 0 Z" />
+          </clipPath>
+        </defs>
+        <rect x="0" y="0" width="63" height="1000" fill="url(#sg)" clipPath="url(#sc)" style={{ filter: 'drop-shadow(0 0 18px rgba(83, 61, 255, 0.20))' }} />
+        <rect x="0" y="0" width="63" height="1000" fill="url(#sr)" clipPath="url(#sc)" />
+        <rect x="0" y="0" width="63" height="1000" fill="rgba(62, 39, 190, 0.78)" clipPath="url(#sc)" style={{ backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)' }} />
+        <path d="M 31.5 0 C 15 0, 5 15, 5 35 C 5 55, 8 65, 8 80 L 8 920 C 8 935, 5 945, 5 965 C 5 985, 15 1000, 31.5 1000 L 31.5 1000 C 48 1000, 58 985, 58 965 C 58 945, 55 935, 55 920 L 55 80 C 55 65, 58 55, 58 35 C 58 15, 48 0, 31.5 0 Z" fill="none" stroke="rgba(255, 255, 255, 0.18)" strokeWidth="1" />
+      </svg>
+      <nav className="relative z-10 flex flex-col items-center justify-between h-full pb-4">
+        <div className="flex flex-col space-y-[2px] w-full">
+          {NAV_ITEMS.filter(item => !item.isAction).map(item => {
+            const isActive = activeId === item.id;
             return (
-              <div key={item.id} className="relative group" onMouseEnter={() => setHoveredItem(item.id)} onMouseLeave={() => setHoveredItem(null)}>
+              <div key={item.id} className="relative group">
                 <button type="button" onClick={() => handleNavClick(item)} aria-label={item.label} className="relative flex items-center justify-center w-[42px] h-[42px] transition-all duration-180 ease-out" style={{ opacity: isActive ? 1 : 0.7 }}>
                   {isActive && <div className="absolute inset-0 flex items-center justify-center rounded-[11px]" style={{ background: 'rgba(255, 255, 255, 0.10)', border: '1px solid rgba(255, 255, 255, 0.10)', boxShadow: '0 0 10px rgba(255, 255, 255, 0.07)' }} />}
                   <item.icon size={ICON_SIZE} strokeWidth={1.75} style={{ color: isActive ? '#FFFFFF' : 'rgba(255, 255, 255, 0.70)', filter: isActive ? 'drop-shadow(0 0 4px rgba(255, 255, 255, 0.25))' : 'none', transition: 'all 180ms ease' }} />
@@ -135,20 +157,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
       </nav>
     </>
   );
-            <path d="M 31.5 0 C 15 0, 5 15, 5 35 C 5 55, 8 65, 8 80 L 8 920 C 8 935, 5 945, 5 965 C 5 985, 15 1000, 31.5 1000 L 31.5 1000 C 48 1000, 58 985, 58 965 C 58 945, 55 935, 55 920 L 55 80 C 55 65, 58 55, 58 35 C 58 15, 48 0, 31.5 0 Z" />
-          </clipPath>
-        </defs>
-        <rect x="0" y="0" width="63" height="1000" fill="url(#sg)" clipPath="url(#sc)" style={{ filter: 'drop-shadow(0 0 18px rgba(83, 61, 255, 0.20))' }} />
-        <rect x="0" y="0" width="63" height="1000" fill="url(#sr)" clipPath="url(#sc)" />
-        <rect x="0" y="0" width="63" height="1000" fill="rgba(62, 39, 190, 0.78)" clipPath="url(#sc)" style={{ backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)' }} />
-        <path d="M 31.5 0 C 15 0, 5 15, 5 35 C 5 55, 8 65, 8 80 L 8 920 C 8 935, 5 945, 5 965 C 5 985, 15 1000, 31.5 1000 L 31.5 1000 C 48 1000, 58 985, 58 965 C 58 945, 55 935, 55 920 L 55 80 C 55 65, 58 55, 58 35 C 58 15, 48 0, 31.5 0 Z" fill="none" stroke="rgba(255, 255, 255, 0.18)" strokeWidth="1" />
-      </svg>
-      '/analytics': 'analytics',
-      '/services': 'services',
-      '/education': 'education',
-      '/timeline': 'timeline',
-      '/strengths': 'strengths',
-      '/resume': 'resume',
 
   return (
     <>
@@ -169,13 +177,3 @@ export const Sidebar: React.FC<SidebarProps> = ({
     </>
   );
 };
-      '/cv': 'download-cv',
-      '/social': 'social-links',
-      '/contact': 'contact',
-    };
-    return pathMap[location.pathname] || 'dashboard';
-  };
-
-  const activeId = getActivePath();
-  { id: 'contact', label: 'Contact', icon: Mail, path: '/contact' },
-];
